@@ -7,19 +7,16 @@ interface Task {
   completed: boolean;
 }
 
-const socket = io("http://localhost:5000/");
+const socket = io("https://fullstack-task-dheeraj.onrender.com/");
 
 const TaskList: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/fetchAllTasks")
-      .then((response) => {
-        const validTasks = response.data.filter(
-          (task: Task) => task.title && task.title.trim() !== ""
-        );
-        setTasks(validTasks);
+      .get("https://fullstack-task-dheeraj.onrender.com/api/fetchAllTasks")
+      .then(() => {
+        setTasks(tasks);
       })
       .catch((error) => console.error("Error fetching tasks:", error));
 
@@ -32,7 +29,7 @@ const TaskList: React.FC = () => {
     return () => {
       socket.off("newTask");
     };
-  }, []);
+  }, [tasks]);
 
   return (
     <div className="task-list">
